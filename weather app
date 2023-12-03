@@ -1,0 +1,31 @@
+import requests
+import json
+
+def get_weather(location):
+    try:
+        api_key = 'b67a51700ffbb052fe4ae9bfc9a08ce6' 
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric'
+        response = requests.get(url)
+        data = response.json()
+
+        if data['cod'] != '404':
+            main = data['weather'][0]['main']
+            description = data['weather'][0]['description']
+            temperature = data['main']['temp']
+            humidity = data['main']['humidity']
+
+            print(f'Weather in {location}:')
+            print(f'Temperature: {temperature}°C')
+            print(f'Humidity: {humidity}%')
+            print(f'Weather Condition: {main} - {description}')
+        else:
+            print('City not found. Please try again.')
+    except Exception as e:
+        print(str(e))
+
+def main():
+    location = input('Enter location (city or ZIP code): ')
+    get_weather(location)
+
+if _name_ == '_main_':
+    main()
